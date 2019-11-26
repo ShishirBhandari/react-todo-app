@@ -1,0 +1,21 @@
+.Todos {
+  width: 96%;
+  padding: 0 2%;
+  list-style: none;
+  text-align: center;
+  border-radius: 5%;
+}
+
+.AddButton {
+  width: 50px;
+  line-height: 50px;
+  border-radius: 50%;
+  background-color: skyblue;
+  text-align: center;
+  font-size: 40px;
+  display: inline-block;
+}
+
+.AddButton:hover {
+  background-color: lightseagreen;
+}
