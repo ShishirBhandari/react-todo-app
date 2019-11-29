@@ -4,45 +4,57 @@ import './App.css';
 import Search from './../components/Search/Search';
 import Todos from './../components/Todos/Todos';
 import { EventEmitter } from 'events';
+import upperCase from 'upper-case';
 
 class App extends Component {
+  todos = [
+    {
+      id: 1,
+      title: 'Go to Market',
+      description: 'TBD: Lorem Ipsum Porem',
+      createdAt: new Date(),
+      completedAt: null,
+      deletedAt: null,
+      editing: false
+    },
+    {
+      id: 2,
+      title: "Go to Ravi's house",
+      description:
+        'Lorem Ipsum: Lorem Ipsum Porem Lorem Ipsum Porem Lorem Ipsum Porem Lorem Ipsum Porem',
+      createdAt: new Date(),
+      completedAt: new Date(),
+      deletedAt: null
+    },
+    {
+      id: 3,
+      title: 'List items',
+      description: 'TBD: Lorem Ipsum  Porem',
+      createdAt: new Date(),
+      completedAt: null,
+      deletedAt: null
+    },
+    {
+      id: 4,
+      title: 'Buy groceries',
+      description: 'TBD: Lorem Ipsum  Porem',
+      createdAt: new Date(),
+      completedAt: null,
+      deletedAt: null
+    },
+    {
+      id: 5,
+      title: 'Cook food.',
+      description: 'TBD: Lorem Ipsum  Porem',
+      createdAt: new Date(),
+      completedAt: null,
+      deletedAt: null
+    }
+  ];
+
   state = {
-    todos: [
-      {
-        id: 1,
-        title: 'Buy groceries',
-        description: 'TBD: Lorem Ipsum  Porem',
-        createdAt: new Date(),
-        completedAt: null,
-        deletedAt: null,
-        editing: false
-      },
-      {
-        id: 2,
-        title: "Go to Ravi's house",
-        description:
-          'Lorem Ipsum: Lorem Ipsum Porem Lorem Ipsum Porem Lorem Ipsum Porem Lorem Ipsum Porem',
-        createdAt: new Date(),
-        completedAt: new Date(),
-        deletedAt: null
-      },
-      {
-        id: 3,
-        title: 'Buy groceries',
-        description: 'TBD: Lorem Ipsum  Porem',
-        createdAt: new Date(),
-        completedAt: null,
-        deletedAt: null
-      },
-      {
-        id: 4,
-        title: 'Buy groceries',
-        description: 'TBD: Lorem Ipsum  Porem',
-        createdAt: new Date(),
-        completedAt: null,
-        deletedAt: null
-      }
-    ]
+    // todos: this.todos
+    todos: [...this.todos]
   };
 
   todoCompleted = (event, index) => {
@@ -52,10 +64,12 @@ class App extends Component {
 
     todo.completedAt = !todo.completedAt ? new Date() : null;
 
-    var newTodos = this.state.todos;
+    var newTodos = this.todos;
     newTodos[index] = todo;
+    // this.todos[index] = todo;
+
     this.setState({
-      todos: newTodos
+      todos: [...newTodos]
     });
   };
 
@@ -63,10 +77,12 @@ class App extends Component {
     var todo = this.state.todos[index];
     todo.editing = !todo.editing;
 
-    var newTodos = this.state.todos;
+    var newTodos = this.todos;
     newTodos[index] = todo;
+    // this.todos[index] = todo;
+
     this.setState({
-      todos: newTodos
+      todos: [...newTodos]
     });
   };
 
@@ -76,10 +92,12 @@ class App extends Component {
     todo.description = description;
     todo.editing = false;
 
-    var newTodos = this.state.todos;
+    var newTodos = this.todos;
     newTodos[index] = todo;
+    // this.todos[index] = todo;
+
     this.setState({
-      todos: newTodos
+      todos: [...newTodos]
     });
   };
 
@@ -87,10 +105,12 @@ class App extends Component {
     var todo = this.state.todos[index];
     todo.deletedAt = new Date();
 
-    var newTodos = this.state.todos;
+    var newTodos = this.todos;
     newTodos[index] = todo;
+    // this.todos[index] = todo;
+
     this.setState({
-      todos: newTodos
+      todos: [...newTodos]
     });
   };
 
@@ -107,18 +127,53 @@ class App extends Component {
       editing: true
     };
 
-    var newTodos = this.state.todos;
+    var newTodos = this.todos;
     newTodos.push(todo);
+
+    // this.todos.push(todo);
+
     this.setState({
-      todos: newTodos
+      todos: [...newTodos]
     });
+  };
+
+  searchTodos = (e, query) => {
+    console.log(query);
+
+    if (query === '') {
+      this.setState({
+        todos: [...this.todos]
+      });
+
+      return;
+    }
+
+    var newTodos = [];
+
+    console.log(this.todos);
+
+    this.todos.forEach(todo => {
+      query = query.toLowerCase();
+      if (
+        todo.title.toLowerCase().includes(query) ||
+        todo.description.toLowerCase().includes(query)
+      ) {
+        newTodos.push(todo);
+      }
+    });
+
+    this.setState({
+      todos: [...newTodos]
+    });
+
+    return;
   };
 
   render() {
     return (
       <div className='App'>
         <header className='App-header'>
-          <Search></Search>
+          <Search searchTodos={this.searchTodos}></Search>
         </header>
         <div className='App-content'>
           <Todos

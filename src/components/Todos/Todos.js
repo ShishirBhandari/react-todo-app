@@ -22,22 +22,27 @@ const todos = props => {
 
       {/* <TodoForm addTodo={props.addTodo}></TodoForm> */}
 
-      {todos.map((todo, index) => {
-        if (todo.deletedAt == null)
-          return (
-            <Todo
-              todo={todo}
-              todoCompleted={event => props.todoCompleted(event, index)}
-              editClicked={e => props.editClicked(e, index)}
-              editTodo={(e, t, d) => {
-                return props.editTodo(e, index, t, d);
-              }}
-              deleteTodo={props.deleteTodo.bind(this, index)}
-              key={todo.id}
-            ></Todo>
-          );
-        else return null;
-      })}
+      {todos
+        .sort((a, b) => {
+          return b.createdAt - a.createdAt;
+        })
+        .sort((a, b) => (a.completedAt ? true : false))
+        .map((todo, index) => {
+          if (todo.deletedAt == null)
+            return (
+              <Todo
+                todo={todo}
+                todoCompleted={event => props.todoCompleted(event, index)}
+                editClicked={e => props.editClicked(e, index)}
+                editTodo={(e, t, d) => {
+                  return props.editTodo(e, index, t, d);
+                }}
+                deleteTodo={props.deleteTodo.bind(this, index)}
+                key={todo.id}
+              ></Todo>
+            );
+          else return null;
+        })}
     </ul>
   );
 };

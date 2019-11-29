@@ -12,7 +12,7 @@
   display: block;
 }
 
-.SearchForm input[type='submit'] {
+.SearchForm input[type='button'] {
   /* background-color: green; */
   cursor: pointer;
   color: #28a745;
@@ -24,12 +24,13 @@
   outline: none;
   border: 1px solid #28a745;
   margin: 0 5px;
+  font-weight: bold;
 
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
     border-color 0.15s ease-in-out;
 }
 
-.SearchForm input[type='submit']:hover {
+.SearchForm input[type='button']:hover {
   color: white;
   background-color: #28a745;
 }
